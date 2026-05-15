@@ -11,7 +11,7 @@ for (let i = 1; i <= 32; i++) {
   );
 }
 const mastergain = new GainNode(audioCtx, { gain: 0 });
-const safetygain = new GainNode(audioCtx, { gain: 0.5 });
+const safetygain = new GainNode(audioCtx, { gain: 0.3 });
 mastergain.connect(safetygain);
 safetygain.connect(audioCtx.destination);
 
