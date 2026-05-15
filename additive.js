@@ -11,7 +11,7 @@ for (let i = 1; i <= 32; i++) {
   );
 }
 const mastergain = new GainNode(audioCtx, { gain: 0 });
-const safetygain = new GainNode(audioCtx, { gain: 0.3 });
+const safetygain = new GainNode(audioCtx, { gain: 0.5 });
 mastergain.connect(safetygain);
 safetygain.connect(audioCtx.destination);
 
@@ -150,5 +150,76 @@ function wavegraph(){
     chartContext.lineTo(x, Number(midH - ys[x] * midH / limitY * 0.8));
   } 
   chartContext.stroke(); 
-  safetygain.gain.value = 0.8 * midH / limitY 
+  safetygain.gain.value = 0.8 * midH / limitY;
 };
+
+// download .wav
+const bt_dl = document.getElementById("bt_dl");
+function downloadWav(samples, sampleRate = 44100) {
+
+  const buffer = new ArrayBuffer(44 + samples.length * 2);
+  const view = new DataView(buffer);
+
+  function writeString(offset, str) {
+    for (let i = 0; i < str.length; i++) {
+      view.setUint8(offset + i, str.charCodeAt(i));
+    }
+  }
+
+  // WAV header
+  writeString(0, "RIFF");
+  view.setUint32(4, 36 + samples.length * 2, true);
+  writeString(8, "WAVE");
+
+  writeString(12, "fmt ");
+  view.setUint32(16, 16, true); // PCM chunk size
+  view.setUint16(20, 1, true);  // PCM format
+  view.setUint16(22, 1, true);  // mono
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+
+  writeString(36, "data");
+  view.setUint32(40, samples.length * 2, true);
+
+  // samples
+  let offset = 44;
+
+  for (let i = 0; i < samples.length; i++, offset += 2) {
+    view.setInt16(offset, samples[i], true);
+  }
+
+  // download
+  const blob = new Blob([buffer], {
+    type: "audio/wav"
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "wave.wav";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+bt_dl.addEventListener("click", () => {
+  var sines = [];
+  var sinelimit = 32767;
+  for (var i=0; i<44100; i++) {
+    var sine  = 0;
+    for (var ii=0; ii<32; ii++) {
+      sine += 32767 * Math.sin(in_freq.value * (ii+1) * i * 2 * Math.PI / 44100) * in_gains[ii].value / 256;
+    };
+    if (Math.abs(sine) > sinelimit){
+      sinelimit = Math.abs(sine);
+    };
+    sines.push(sine);
+  };
+  var sines2 = sines.map(v => Math.round(v * 32768 /(sinelimit+1)));
+  downloadWav(sines2);
+});
