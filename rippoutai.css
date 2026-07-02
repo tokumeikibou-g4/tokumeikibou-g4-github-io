@@ -24,7 +24,10 @@ th{
     padding: 0;
 }
 .cube{
-    width: 6vw; /* if 10 cells */
+    height: 6vw;
+    border: 6px solid black;
+    border-radius: 4px;
+    width: 6vw;
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
 }
@@ -43,8 +46,8 @@ button{
     }
     .cube{
     width: 12vw; /* if 10 cells */
+    height: 12vw
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
 }
 }
-
