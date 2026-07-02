@@ -38,7 +38,11 @@ th{
     border-radius: 4px;
 }
 
-@media (max-width: 700px) {
+button{
+  margin-left: 24px;
+  font-size: 24px;
+}
+@media screen and (max-width: 700px) {
     button{
         display: none;
     }
@@ -48,7 +52,3 @@ th{
     }
 }
 
-button{
-  margin-left: 24px;
-  font-size: 24px;
-}
