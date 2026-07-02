@@ -45,8 +45,8 @@ button{
         max-height: calc(100vh - 24px);
     }
     .cube{
-    width: 12vw; /* if 10 cells */
-    height: 12vw
+    width: 12vw;
+    height: 12vw;
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
 }
