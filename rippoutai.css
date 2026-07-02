@@ -15,27 +15,18 @@ body {
     align-items: center;
     min-height: 30vh;
 }
-.container {
-    max-width: calc(100vw - 10vw);
-    max-height: calc(100vh - 10vh);
-    object-fit: contain;
-    display: flex;
-}
-
 
 table {
     border-spacing: 0;
 }
 th{
-    height: 6vw;
-
     margin: 0;
     padding: 0;
 }
 .cube{
-    width: 6vw;
-    border: 6px solid black;
-    border-radius: 4px;
+    width: 6vw; /* if 10 cells */
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
 }
 
 button{
@@ -50,5 +41,10 @@ button{
         max-width: calc(100vw - 24px);
         max-height: calc(100vh - 24px);
     }
+    .cube{
+    width: 12vw; /* if 10 cells */
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+}
 }
 
