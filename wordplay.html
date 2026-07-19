@@ -1,0 +1,51 @@
+<!DOCTYPE html><html><head></head>
+<body>
+input: <input id="in" />
+<div id="buttonarea"></div>
+<textarea id="textarea"></textarea>
+
+
+<script>
+var arr = []
+const textarea = document.getElementById("textarea")
+document.getElementById("in").addEventListener("change", (e) => {
+    const str = e.target.value;
+    arr = []
+    arr = str.split("");
+    let text = ""
+    let br = 0
+
+    for(let i = 0; i < arr.length; i++){
+        text += `<button id="${i}" onclick="addChar(${i})">${arr[i]}</button>`
+        br += 1
+        if (br == 5){
+            br = 0
+            text += '<br>'
+        }
+        
+    }
+    document.getElementById("buttonarea").innerHTML = text
+    textarea.value = ""
+});
+
+function addChar(i) {
+    if(document.getElementById(i).style.opacity == .2){
+        document.getElementById(i).style.opacity = 1
+        textarea.value = removeLastChar(textarea.value, arr[i]);
+    }else{
+        document.getElementById(i).style.opacity = .2
+        textarea.value += arr[i];
+    }
+}
+
+function removeLastChar(str, ch) {
+    const i = str.lastIndexOf(ch);
+
+    if (i !== -1) {
+        return str.slice(0, i) + str.slice(i + 1);
+    }
+
+    return str;
+}
+</script>
+</body></html>
